@@ -13,12 +13,18 @@ func getCode(w http.ResponseWriter, r *http.Request) {
 }
 
 func sendCode(code string, w http.ResponseWriter) {
-	w.Header().Set("Authorization", "Basic ZHBxazVzbXBxMDM5Mmo6dDB0czB0YWdvcm05bnExdjZzbW10dnBxYzI=")
-	resp, err := http.Post("https://hackillinois.climate.com/api/oauth/token", "grant_type=authorization_code&redirect_uri=http://zacc.xyz:8000&code="+code, nil)
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", "https://hackillinois.climate.com/api/oauth/token", nil)
 	if err != nil {
 		panic(err)
 	}
-	log.Print(resp)
+	req.Body().Set("grant_type=authorization_code&redirect_uri=http://zacc.xyz:8000&code=" + code)
+	req.Header().Set("Authorization", "Basic ZHBxazVzbXBxMDM5Mmo6dDB0czB0YWdvcm05bnExdjZzbW10dnBxYzI=")
+	res, err1 := client.Do(req)
+	if err1 != nil {
+		panic(err)
+	}
+	log.Print(res)
 }
 
 func main() {
