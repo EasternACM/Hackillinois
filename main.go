@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"log"
 	"net/http"
 )
@@ -14,12 +15,12 @@ func getCode(w http.ResponseWriter, r *http.Request) {
 
 func sendCode(code string, w http.ResponseWriter) {
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", "https://hackillinois.climate.com/api/oauth/token", nil)
+	var jsonStr = []byte("grant_type=authorization_code&redirect_uri=http://zacc.xyz:8000&code=" + code)
+	req, err := http.NewRequest("POST", "https://hackillinois.climate.com/api/oauth/token", bytes.NewBuffer(jsonStr))
 	if err != nil {
 		panic(err)
 	}
-	req.Body().Set("grant_type=authorization_code&redirect_uri=http://zacc.xyz:8000&code=" + code)
-	req.Header().Set("Authorization", "Basic ZHBxazVzbXBxMDM5Mmo6dDB0czB0YWdvcm05bnExdjZzbW10dnBxYzI=")
+	req.Header.Set("Authorization", "Basic ZHBxazVzbXBxMDM5Mmo6dDB0czB0YWdvcm05bnExdjZzbW10dnBxYzI=")
 	res, err1 := client.Do(req)
 	if err1 != nil {
 		panic(err)
