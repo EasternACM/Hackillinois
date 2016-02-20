@@ -1,14 +1,12 @@
 package main
-
 import (
-	"fmt"
-	"io"
 	"net/http"
+        "io"
 )
-
+    
 func login(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello world!")
-	fmt.Print("Hello World")
+  
+   io.WriteString(w, r.URL.String())
 }
 
 func main() {
