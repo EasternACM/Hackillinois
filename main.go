@@ -1,17 +1,13 @@
 package main
+
 import (
+	"fmt"
 	"net/http"
-        "io"
-        "net/url"
 )
-    
+
 func login(w http.ResponseWriter, r *http.Request) {
-   s := r.URL.String()
-   u, _ := url.Parse(s) 
-   m := u.Query()
-//   i := m["code"]   
-  // code := i[0]   
-   io.WriteString(w, "code")
+	code := r.URL.Query().Get("code")
+	fmt.Print(code)
 }
 
 func main() {
