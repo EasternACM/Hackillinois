@@ -37,6 +37,7 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
+	log.Print("bong hit for jesus john 420")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	m := []byte(`{
     name: Back 40,
