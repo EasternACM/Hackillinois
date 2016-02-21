@@ -75,9 +75,9 @@ func dashHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	log.Print("start")
-	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	http.HandleFunc("/", sendCode)
-	http.HandleFunc("/fields", getFields)
 	http.HandleFunc("/dash", dashHandler)
-	http.ListenAndServe(":8000", nil)
+	http.HandleFunc("/fields", getFields)
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+	http.ListenAndServe(":8020", nil)
 }
