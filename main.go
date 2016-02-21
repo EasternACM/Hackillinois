@@ -27,17 +27,14 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 	req.Header.Set("Authorization", "Basic ZHBxazVzbXBxMDM5Mmo6dDB0czB0YWdvcm05bnExdjZzbW10dnBxYzI=")
 	req.Header.Set("content-type", "application/x-www-form-urlencoded")
 	req.Header.Set("Accept", "*/*")
+	log.Println(req)
 	res, err1 := client.Do(req)
 	if err1 != nil {
 		panic(err)
 	}
 	defer res.Body.Close()
-	log.Print(res)
-	var respo Response
-	//Prints the response
-	log.Println("\n\n XamzCfId" + respo.XAmzCfId)
-	log.Println("Xcache\n" + respo.XCache)
-	log.Println("\nDate\n" + respo.Date)
+	log.Println(res)
+
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
