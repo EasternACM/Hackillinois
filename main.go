@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"io"
 	"log"
 	"net/http"
 )
@@ -27,12 +28,18 @@ func sendCode(code string) {
 	if err1 != nil {
 		panic(err)
 	}
+	defer res.Body.Close()
 	//Prints the response
 	log.Print(res)
+}
+
+func getFields(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Hello world!")
 }
 
 func main() {
 	log.Print("start")
 	http.HandleFunc("/", getCode)
+	http.HandleFunc("/fields", getFields)
 	http.ListenAndServe(":8000", nil)
 }
