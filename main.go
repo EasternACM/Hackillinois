@@ -34,12 +34,13 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 	}
 	defer res.Body.Close()
 	log.Println(res)
+	log.Println(res.Body)
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
-	myItems := 	`{ 
+	myItems := `{
 	    name: Back 40,
 	    source: {
 	        attributes: FIELDVIEW,
