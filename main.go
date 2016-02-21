@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"io"
+	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -37,8 +37,10 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	io.WriteString(w, "Hello world!")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	myItems := []string{"item1", "item2", "item3"}
+	a, _ := json.Marshal(myItems)
+	w.Write(a)
 }
 
 func main() {
