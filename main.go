@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"io"
 	"log"
 	"net/http"
@@ -33,12 +32,8 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	defer res.Body.Close()
-	decoder := json.NewDecoder(res.Body)
+	log.Print(res)
 	var respo Response
-	err3 := decoder.Decode(&respo)
-	if err3 != nil {
-		panic(err)
-	}
 	//Prints the response
 	log.Println("\n\n XamzCfId" + respo.XAmzCfId)
 	log.Println("Xcache\n" + respo.XCache)
