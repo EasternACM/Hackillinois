@@ -34,10 +34,10 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 	}
 	defer res.Body.Close()
 	log.Println(res)
-
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	io.WriteString(w, "Hello world!")
 }
 
