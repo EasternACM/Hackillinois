@@ -27,7 +27,6 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 	req.Header.Set("Authorization", "Basic ZHBxazVzbXBxMDM5Mmo6dDB0czB0YWdvcm05bnExdjZzbW10dnBxYzI=")
 	req.Header.Set("content-type", "application/x-www-form-urlencoded")
 	req.Header.Set("Accept", "*/*")
-	log.Println(req)
 	res, err1 := client.Do(req)
 	if err1 != nil {
 		panic(err)
@@ -68,12 +67,16 @@ func getFields(w http.ResponseWriter, r *http.Request) {
 	}`
 	a, _ := json.Marshal(myItems)
 	w.Write(a)
+}
 
+func dashHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./index.html")
 }
 
 func main() {
 	log.Print("start")
 	http.HandleFunc("/", sendCode)
 	http.HandleFunc("/fields", getFields)
+	http.HandleFunc("/dash", dashHandler)
 	http.ListenAndServe(":8000", nil)
 }
