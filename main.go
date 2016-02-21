@@ -72,5 +72,5 @@ func main() {
 	log.Print("start")
 	http.HandleFunc("/", sendCode)
 	http.HandleFunc("/fields", getFields)
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":80", nil)
 }
