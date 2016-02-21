@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -33,14 +32,11 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	defer res.Body.Close()
-	log.Println(res)
+	log.Println(res.Body)
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	myItems := []string{"item1", "item2", "item3"}
-	a, _ := json.Marshal(myItems)
-	w.Write(a)
 }
 
 func main() {
