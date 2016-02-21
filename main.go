@@ -2,19 +2,30 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
 )
 
-func getCode(w http.ResponseWriter, r *http.Request) {
+type Response struct {
+	XCache        string
+	XAmzCfId      string
+	ContentType   string
+	ContentLength int
+	Connection    string
+	Date          string
+}
+
+func getCode(w http.ResponseWriter, r *http.Request) string {
 	log.Print("hit")
 	code := r.URL.Query().Get("code")
 	log.Print(code)
-	sendCode(code)
+	return code
 }
 
-func sendCode(code string) {
+func sendCode(w http.ResponseWriter, r *http.Request) {
+	code := getCode(w, r)
 	client := &http.Client{}
 	var jsonStr = []byte("grant_type=authorization_code&redirect_uri=http://zacc.xyz:8000&code=" + code)
 	req, err := http.NewRequest("POST", "https://hackillinois.climate.com/api/oauth/token", bytes.NewBuffer(jsonStr))
@@ -29,8 +40,17 @@ func sendCode(code string) {
 		panic(err)
 	}
 	defer res.Body.Close()
+
+	decoder := json.NewDecoder(req.Body)
+	var respo Response
+	err3 := decoder.Decode(&respo)
+	if err3 != nil {
+		panic(err)
+	}
 	//Prints the response
-	log.Print(res)
+	log.Println("\n\n" + respo.XAmzCfId)
+	log.Println(respo.XCache)
+
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +59,7 @@ func getFields(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	log.Print("start")
-	http.HandleFunc("/", getCode)
+	http.HandleFunc("/", sendCode)
 	http.HandleFunc("/fields", getFields)
 	http.ListenAndServe(":8000", nil)
 }
