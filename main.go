@@ -17,15 +17,8 @@ type Response struct {
 	Date          string
 }
 
-func getCode(w http.ResponseWriter, r *http.Request) string {
-	log.Print("hit")
-	code := r.URL.Query().Get("code")
-	log.Print(code)
-	return code
-}
-
 func sendCode(w http.ResponseWriter, r *http.Request) {
-	code := getCode(w, r)
+	code := r.URL.Query().Get("code")
 	client := &http.Client{}
 	var jsonStr = []byte("grant_type=authorization_code&redirect_uri=http://zacc.xyz:8000&code=" + code)
 	req, err := http.NewRequest("POST", "https://hackillinois.climate.com/api/oauth/token", bytes.NewBuffer(jsonStr))
@@ -48,9 +41,9 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	//Prints the response
-	log.Println("\n\n" + respo.XAmzCfId)
-	log.Println(respo.XCache)
-
+	log.Println("\n\n XamzCfId" + respo.XAmzCfId)
+	log.Println("Xcache\n" + respo.XCache)
+	log.Println("\nDate\n" + respo.Date)
 }
 
 func getFields(w http.ResponseWriter, r *http.Request) {
