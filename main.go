@@ -33,8 +33,7 @@ func sendCode(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	defer res.Body.Close()
-
-	decoder := json.NewDecoder(req.Body)
+	decoder := json.NewDecoder(res.Body)
 	var respo Response
 	err3 := decoder.Decode(&respo)
 	if err3 != nil {
